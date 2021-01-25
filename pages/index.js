@@ -56,7 +56,7 @@ export default function Home() {
         </Widget>
         <Footer />
       </QuizContainer>
-      <GitHubCorner projectUrl="https://google.com" />
+      <GitHubCorner projectUrl="https://github.com/zNexTage/f1quiz" />
     </QuizBackground>
   )
 }
