@@ -49,7 +49,7 @@ export default function Home() {
   const [playerName, setPlayerName] = useState("");
 
   const submitHandler = (event) => {
-    router.push(`/quiz?name=${playerName}`);
+    router.push(`/quiz?playerName=${playerName}`);
 
     event.preventDefault();
   }
@@ -59,6 +59,8 @@ export default function Home() {
 
     setPlayerName(value);
   }
+
+  const hasPlayerName = playerName.length > 0;
 
   return (
     <QuizBackground backgroundImage={db.bg}>
@@ -80,7 +82,7 @@ export default function Home() {
               <QuizInput
                 onChange={inputHandler}
                 placeholder="Diz ai o seu nome :)" />
-              <QuizButton type="submit" disabled={playerName.length === 0}>
+              <QuizButton style={{ cursor: hasPlayerName ? "pointer" : "not-allowed" }} type="submit" disabled={!hasPlayerName}>
                 Jogar
               </QuizButton>
             </QuizForm>
