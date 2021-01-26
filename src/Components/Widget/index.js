@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Widget = styled.div`
    margin-top: 24px;
@@ -31,7 +31,7 @@ display: flex;
   * {
     margin: 0;
   }
-`
+`;
 
 Widget.Content = styled.div`
   padding: 24px 32px 32px 32px;
