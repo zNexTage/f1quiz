@@ -1,9 +1,16 @@
 import React from 'react'
+import { useRouter } from 'next/router';
 
-function Quiz(){
+function Quiz() {
+    const router = useRouter();
+
+    const { playerName } = router.query;
+
     return (
         <div>
-            Página de quiz
+            <h1 style={{color: 'black'}}>
+                {playerName}
+            </h1>
         </div>
     )
 }
