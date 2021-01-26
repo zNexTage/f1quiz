@@ -26,6 +26,11 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-direction: column;
   }
+
+  input, button{
+    font-family: 'Lato', sans-serif;
+  }
+
 `;
 
 const { theme } = db;

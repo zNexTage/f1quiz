@@ -7,7 +7,9 @@ import db from '../db.json';
 import Widget from '../src/Components/Widget';
 import Footer from '../src/Components/Footer';
 import GitHubCorner from '../src/Components/GitHubCorner';
-import QuizBackground from '../src/Components/QuizBackground';
+import QuizBackground from '../src/Components/Quiz/QuizBackground';
+import QuizInput from '../src/Components/Quiz/QuizInput'
+import QuizButton from '../src/Components/Quiz/QuizButton'
 
 /* const Title = styled.h1`
   font-size: 50px;
@@ -36,11 +38,17 @@ export const QuizContainer = styled.div`
   }
 `;
 
+const QuizForm = styled.form`
+  margin-top: 20px;
+`
+
+
+
 export default function Home() {
   const router = useRouter();
   const [playerName, setPlayerName] = useState("");
 
-  const submitHandler = (event) => { 
+  const submitHandler = (event) => {
     router.push(`/quiz?name=${playerName}`);
 
     event.preventDefault();
@@ -62,17 +70,20 @@ export default function Home() {
       <QuizContainer>
         <Widget>
           <Widget.Header>
-            <h1>Formula 1</h1>
+            <h1>Formula 1 - Quiz</h1>
           </Widget.Header>
           <Widget.Content>
-            <form onSubmit={submitHandler}>
-              <input
+            <label>
+              Teste os seus conhecimentos sobre o incrível mundo da Formula 1
+            </label>
+            <QuizForm onSubmit={submitHandler}>
+              <QuizInput
                 onChange={inputHandler}
                 placeholder="Diz ai o seu nome :)" />
-              <button type="submit" disabled={playerName.length === 0}>
-                Jogar {playerName}
-              </button>
-            </form>
+              <QuizButton type="submit" disabled={playerName.length === 0}>
+                Jogar
+              </QuizButton>
+            </QuizForm>
           </Widget.Content>
         </Widget>
         <Widget>
@@ -80,7 +91,7 @@ export default function Home() {
             <h1>Quizes da Galera</h1>
           </Widget.Header>
           <Widget.Content>
-            <p>Lorem ipsum dolor sit amet...</p>
+            <label>Dá uma olhada nesses quizes incríveis que o pessoal da Imersão <del>Alguma coisa</del> fez:</label>
           </Widget.Content>
         </Widget>
         <Footer />
