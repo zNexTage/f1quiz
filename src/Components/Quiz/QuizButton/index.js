@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-const QuizButton = styled.button`
+const QuizButtonBase = styled.button`
   width: 100%;
   margin-top: 20px;
   height: 40px;
@@ -10,10 +11,26 @@ const QuizButton = styled.button`
   border:none;
   outline:none;
   color: ${({ theme }) => theme.colors.contrastText};
-
-  :disabled{
-    background-color:'red'
-  }
+ 
 `;
+
+function QuizButton({ disabled, type, children }) {
+  console.log(children);
+  return (
+    <QuizButtonBase
+      style={{ cursor: !disabled ? "pointer" : "not-allowed" }}
+      type={type}
+      disabled={disabled} >
+      {children}
+    </QuizButtonBase>
+  )
+}
+
+
+QuizButton.propTypes = {
+  disabled: PropTypes.bool,
+  type: PropTypes.string.isRequired
+}
+
 
 export default QuizButton;

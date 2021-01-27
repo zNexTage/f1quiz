@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types'
 
-const QuizInput = styled.input`
+const QuizInputBase = styled.input`
   height: 35px;
   border-radius:6px;
   outline:none;
@@ -14,5 +15,19 @@ const QuizInput = styled.input`
     color:white
   }
 `;
+
+function QuizInput({ onChange, placeholder }) {
+  return (
+    <QuizInputBase
+      onChange={onChange}
+      placeholder={placeholder} />
+  )
+}
+
+QuizInput.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired
+};
+
 
 export default QuizInput;
