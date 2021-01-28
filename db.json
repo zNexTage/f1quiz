@@ -4,25 +4,27 @@
     "description": "Teste os seus conhecimentos sobre CSS e vamos ver quantos layouts você vai deixar de quebrar",
     "questions": [
       {
-        "image": "https://media.giphy.com/media/xUOxf3yDKCuwpOlT3i/giphy.gif",
-        "title": "Como fazer um seletor por id via CSS?",
+        "image": "https://a.espncdn.com/photo/2018/0524/r375152_1296x729_16-9.jpg",
+        "title": "Em que ano Emerson Fittipaldi conquistou seu primeiro campeonato?",
         "description": "Essa é pra aquecer",
         "answer": 2,
         "alternatives": [
-          ".elemento",
-          "*elemento",
-          "#elemento",
-          "%elemento"
+          "1970",
+          "1974",
+          "1972",
+          "1977"
         ]
       },
       {
-        "image": "https://media.giphy.com/media/13FrpeVH09Zrb2/giphy.gif",
-        "title": "Como fazer um background gradiente com css?",
+        "image": "https://jpimg.com.br/uploads/2017/04/H_20081101_100415.jpg",
+        "title": "Quantos títulos Nelson Piquet obteve?",
         "description": "Faz tempo em haha",
         "answer": 0,
         "alternatives": [
-           "background: linear-gradient(#e66465, #9198e5);",
-           "background: gradient(#e66465, #9198e5);"
+           "3",
+           "5",
+           "2",
+           "4"
         ]
       }
     ],
