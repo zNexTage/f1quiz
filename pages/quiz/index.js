@@ -20,6 +20,10 @@ const AnswerResultBase = styled.div`
     align-items:center;
     justify-content:center;
     margin: 20px 20px 0 20px;
+`;
+
+const ResultsWidgetBase = styled.div`
+    background-color: ${(({ correctAnswer, theme }) => correctAnswer ? theme.colors.success : theme.colors.wrong)};
 `
 
 function LoadingWidget() {
@@ -36,6 +40,10 @@ function LoadingWidget() {
 }
 
 function ResultsWidget({ results }) {
+    const router = useRouter();
+
+    const { playerName } = router.query;
+
     const totalHits = results.reduce((totalSum, resultActual) => {
         const isCorrect = resultActual === true;
 
@@ -53,7 +61,7 @@ function ResultsWidget({ results }) {
                     <BackLinkArrow href="/" />Resultado!
                 </Widget.Header>
                 <Widget.Content>
-                    <p>Você acertou {totalHits} perguntas</p>
+                    <p>{playerName}, Você acertou {totalHits} perguntas</p>
                     <ul>
                         {
                             results.map((result, index) => {
@@ -66,11 +74,16 @@ function ResultsWidget({ results }) {
                                 }
 
                                 return (
-                                    <Widget.Topic>
+                                    <ResultsWidgetBase
+                                        as={Widget.Topic}
+                                        correctAnswer={result}
+                                    >
                                         <li>
                                             Questão {formatNumberQuestion}: {result ? "Acertou" : "Errou"}
                                         </li>
-                                    </Widget.Topic>
+                                    </ResultsWidgetBase>
+                                    // <Widget.Topic>
+                                    // </Widget.Topic>
 
                                 )
                             })
@@ -200,10 +213,6 @@ function Quiz({ quizDatabase = db }) {
     const [currentQuestion, setCurrentQuestion] = React.useState(0);
     const questionIndex = currentQuestion;
     const question = quizDatabase.questions[questionIndex];
-
-    const router = useRouter();
-
-    const { playerName } = router.query;
 
     React.useEffect(() => {
         // fetch() ...
