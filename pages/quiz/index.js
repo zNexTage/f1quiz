@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router';
-import { motion, useAnimation } from 'framer-motion'
+import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 import Widget from '../../src/Components/Widget';
 import QuizBackground from '../../src/Components/Quiz/QuizBackground';
@@ -11,6 +12,15 @@ import QuizButton from '../../src/Components/Quiz/QuizButton';
 import AlternativesForm from '../../src/Components/AlternativeForm';
 import BackLinkArrow from '../../src/Components/BackLinkArrow'
 import Loading from '../../src/Components/Loading';
+import styled from 'styled-components';
+
+const AnswerResultBase = styled.div`
+    flex-direction:row;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin: 20px 20px 0 20px;
+`
 
 function LoadingWidget() {
     return (
@@ -72,6 +82,14 @@ function ResultsWidget({ results }) {
     );
 }
 
+function AnswerResult({ src }) {
+    return (
+        <AnswerResultBase>
+            <Image width="60" height="60" src={src} />
+        </AnswerResultBase>
+    )
+}
+
 function QuestionWidget({
     question,
     questionIndex,
@@ -81,7 +99,6 @@ function QuestionWidget({
 }) {
     const [selectedAlternative, setSelectedAlternative] = React.useState();
     const [isQuestionSubmited, setIsQuestionSubmited] = React.useState(false);
-    const btnConfirmAnimation = useAnimation();
     const isCorrect = selectedAlternative === question.answer;
     const hasAlternativeSelected = selectedAlternative !== undefined;
 
@@ -117,14 +134,12 @@ function QuestionWidget({
                     onSubmit={(infosDoEvento) => {
                         infosDoEvento.preventDefault();
                         setIsQuestionSubmited(true);
-                        btnConfirmAnimation.start("hidden")
 
                         setTimeout(() => {
                             addResult(isCorrect);
                             setIsQuestionSubmited(false);
                             onSubmit();
                             setSelectedAlternative(undefined);
-                            btnConfirmAnimation.start("show")
                         }, 3 * 1000)
                     }}
                 >
@@ -148,19 +163,23 @@ function QuestionWidget({
                                     name={questionId}
                                     type="radio"
                                     checked={selectedAlternative === alternativeIndex}
-                                    onChange={() => setSelectedAlternative(alternativeIndex)}
+                                    onChange={() => {
+                                        if (!isQuestionSubmited) {
+                                            setSelectedAlternative(alternativeIndex)
+                                        }
+                                    }}
                                 />
                                 {alternative}
                             </Widget.Topic>
                         );
                     })}
-                    <QuizButton 
+                    {!isQuestionSubmited && <QuizButton
                         disabled={!hasAlternativeSelected}
                         type="submit">
                         Confirmar
-                    </QuizButton>
-                    {isQuestionSubmited && isCorrect && <p>Você Acertou!!</p>}
-                    {isQuestionSubmited && !isCorrect && <p>Você Errou!!</p>}
+                    </QuizButton>}
+                    {isQuestionSubmited && isCorrect && <AnswerResult src="/correct.png" />}
+                    {isQuestionSubmited && !isCorrect && <AnswerResult src="/error.png" />}
                 </AlternativesForm>
             </Widget.Content>
         </Widget>

@@ -11,29 +11,14 @@ const QuizButtonBase = styled.button`
   background-color: ${({ theme }) => theme.colors.buttonBg};
   border:none;
   outline:none;
-  color: ${({ theme }) => theme.colors.contrastText};
- 
+  color: ${({ theme }) => theme.colors.contrastText}; 
 `;
 
 function QuizButton({ disabled, type, children }) {
-
-  let whileHover = {};
-  let cursor = "not-allowed"
-
-  if (!disabled) {
-    whileHover = {
-      scale: 1.1,
-      transition: { duration: 1 },
-    }
-
-    cursor = "pointer";
-  }
+  const cursor = !disabled ? "pointer" : "not-allowed";
 
   return (
     <QuizButtonBase
-      as={motion.button}
-      whileHover={whileHover}
-      whileTap={{ scale: 1 }}
       style={{ cursor }}
       type={type}
       disabled={disabled} >
