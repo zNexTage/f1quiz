@@ -1,29 +1,27 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router';
+import { motion, useAnimation } from 'framer-motion'
 
-import Widget from '../src/Components/Widget';
-import QuizBackground from '../src/Components/Quiz/QuizBackground';
-import QuizContainer from '../src/Components/Quiz/QuizContainer';
+import Widget from '../../src/Components/Widget';
+import QuizBackground from '../../src/Components/Quiz/QuizBackground';
+import QuizContainer from '../../src/Components/Quiz/QuizContainer';
 
-import db from '../db.json'
-import QuizButton from '../src/Components/Quiz/QuizButton';
-import AlternativesForm from '../src/Components/AlternativeForm';
+import db from '../../db.json'
+import QuizButton from '../../src/Components/Quiz/QuizButton';
+import AlternativesForm from '../../src/Components/AlternativeForm';
+import BackLinkArrow from '../../src/Components/BackLinkArrow'
+import Loading from '../../src/Components/Loading';
 
 function LoadingWidget() {
     return (
-        <>
-            <div>
-                Página de quiz
-            </div>
-            <Widget>
-                <Widget.Header>
-                    Carregando...
+        <Widget>
+            <Widget.Header>
+                Aguarde um pouquino :)
                 </Widget.Header>
-                <Widget.Content>
-                    [Desafio do Loading]
-                </Widget.Content>
-            </Widget>
-        </>
+            <Widget.Content>
+                <Loading />
+            </Widget.Content>
+        </Widget>
     );
 }
 
@@ -42,7 +40,7 @@ function ResultsWidget({ results }) {
         <>
             <Widget>
                 <Widget.Header>
-                    Resultado!
+                    <BackLinkArrow href="/" />Resultado!
                 </Widget.Header>
                 <Widget.Content>
                     <p>Você acertou {totalHits} perguntas</p>
@@ -58,9 +56,12 @@ function ResultsWidget({ results }) {
                                 }
 
                                 return (
-                                    <li>
-                                        Questão {formatNumberQuestion}: {result ? "Acertou" : "Errou"}
-                                    </li>
+                                    <Widget.Topic>
+                                        <li>
+                                            Questão {formatNumberQuestion}: {result ? "Acertou" : "Errou"}
+                                        </li>
+                                    </Widget.Topic>
+
                                 )
                             })
                         }
@@ -80,6 +81,7 @@ function QuestionWidget({
 }) {
     const [selectedAlternative, setSelectedAlternative] = React.useState();
     const [isQuestionSubmited, setIsQuestionSubmited] = React.useState(false);
+    const btnConfirmAnimation = useAnimation();
     const isCorrect = selectedAlternative === question.answer;
     const hasAlternativeSelected = selectedAlternative !== undefined;
 
@@ -88,7 +90,7 @@ function QuestionWidget({
     return (
         <Widget>
             <Widget.Header>
-                {/* <BackLinkArrow href="/" /> */}
+                <BackLinkArrow href="/" />
                 <h3>
                     {`Pergunta ${questionIndex + 1} de ${totalQuestions}`}
                 </h3>
@@ -115,12 +117,14 @@ function QuestionWidget({
                     onSubmit={(infosDoEvento) => {
                         infosDoEvento.preventDefault();
                         setIsQuestionSubmited(true);
+                        btnConfirmAnimation.start("hidden")
 
                         setTimeout(() => {
                             addResult(isCorrect);
                             setIsQuestionSubmited(false);
                             onSubmit();
                             setSelectedAlternative(undefined);
+                            btnConfirmAnimation.start("show")
                         }, 3 * 1000)
                     }}
                 >
@@ -132,7 +136,8 @@ function QuestionWidget({
                         return (
                             <Widget.Topic
                                 key={alternativeId}
-                                as="label"
+                                as={motion.label}
+                                whileHover={{ scale: 1.09 }}
                                 htmlFor={alternativeId}
                                 data-selected={isSelected}
                                 data-status={isQuestionSubmited && alternativeStatus}
@@ -142,13 +147,14 @@ function QuestionWidget({
                                     id={alternativeId}
                                     name={questionId}
                                     type="radio"
+                                    checked={selectedAlternative === alternativeIndex}
                                     onChange={() => setSelectedAlternative(alternativeIndex)}
                                 />
                                 {alternative}
                             </Widget.Topic>
                         );
                     })}
-                    <QuizButton
+                    <QuizButton 
                         disabled={!hasAlternativeSelected}
                         type="submit">
                         Confirmar
@@ -168,13 +174,13 @@ const screenStates = {
 };
 
 
-function Quiz() {
+function Quiz({ quizDatabase = db }) {
     const [screenState, setScreenState] = React.useState(screenStates.LOADING);
     const [results, setResults] = React.useState([]);
-    const totalQuestions = db.questions.length;
+    const totalQuestions = quizDatabase.questions.length;
     const [currentQuestion, setCurrentQuestion] = React.useState(0);
     const questionIndex = currentQuestion;
-    const question = db.questions[questionIndex];
+    const question = quizDatabase.questions[questionIndex];
 
     const router = useRouter();
 
@@ -202,7 +208,7 @@ function Quiz() {
     }
 
     return (
-        <QuizBackground backgroundImage={db.bg}>
+        <QuizBackground backgroundImage={quizDatabase.bg}>
             <QuizContainer>
                 {/*<QuizLogo />*/}
                 {screenState === screenStates.QUIZ && (

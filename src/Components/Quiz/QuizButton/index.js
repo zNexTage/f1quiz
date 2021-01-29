@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { motion } from 'framer-motion'
 
 const QuizButtonBase = styled.button`
   width: 100%;
@@ -15,10 +16,25 @@ const QuizButtonBase = styled.button`
 `;
 
 function QuizButton({ disabled, type, children }) {
-  console.log(children);
+
+  let whileHover = {};
+  let cursor = "not-allowed"
+
+  if (!disabled) {
+    whileHover = {
+      scale: 1.1,
+      transition: { duration: 1 },
+    }
+
+    cursor = "pointer";
+  }
+
   return (
     <QuizButtonBase
-      style={{ cursor: !disabled ? "pointer" : "not-allowed" }}
+      as={motion.button}
+      whileHover={whileHover}
+      whileTap={{ scale: 1 }}
+      style={{ cursor }}
       type={type}
       disabled={disabled} >
       {children}

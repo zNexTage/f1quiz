@@ -1,46 +1,85 @@
 {
-    "bg": "https://e0.365dm.com/21/01/2048x1152/skysports-f1-bahrain-start_5234804.jpg",
-    "title": "Quiz CSS da Alura",
-    "description": "Teste os seus conhecimentos sobre CSS e vamos ver quantos layouts você vai deixar de quebrar",
-    "questions": [
-      {
-        "image": "https://a.espncdn.com/photo/2018/0524/r375152_1296x729_16-9.jpg",
-        "title": "Em que ano Emerson Fittipaldi conquistou seu primeiro campeonato?",
-        "description": "Essa é pra aquecer",
-        "answer": 2,
-        "alternatives": [
-          "1970",
-          "1974",
-          "1972",
-          "1977"
-        ]
-      },
-      {
-        "image": "https://jpimg.com.br/uploads/2017/04/H_20081101_100415.jpg",
-        "title": "Quantos títulos Nelson Piquet obteve?",
-        "description": "Faz tempo em haha",
-        "answer": 0,
-        "alternatives": [
-           "3",
-           "5",
-           "2",
-           "4"
-        ]
-      }
-    ],
-    "external": [
-      ""
-    ],
-    "theme": {
-      "colors": {
-        "primary": "#9c27b0",
-        "secondary": "#3d5afe",
-        "mainBg": "#171B35",
-        "contrastText": "#FFFFFF",
-        "wrong": "#FF5722",
-        "success": "#4CAF50",
-        "buttonBg":"#8350E6"
-      },
-      "borderRadius": "4px"
+  "bg": "https://e0.365dm.com/21/01/2048x1152/skysports-f1-bahrain-start_5234804.jpg",
+  "title": "Quiz CSS da Alura",
+  "description": "Teste os seus conhecimentos sobre CSS e vamos ver quantos layouts você vai deixar de quebrar",
+  "questions": [
+    {
+      "image": "https://a.espncdn.com/photo/2018/0524/r375152_1296x729_16-9.jpg",
+      "title": "Em que ano Emerson Fittipaldi conquistou seu primeiro campeonato?",
+      "description": "Essa é pra aquecer",
+      "answer": 2,
+      "alternatives": [
+        "1970",
+        "1974",
+        "1972",
+        "1977"
+      ]
+    },
+    {
+      "image": "https://jpimg.com.br/uploads/2017/04/H_20081101_100415.jpg",
+      "title": "Quantos títulos Nelson Piquet teve?",
+      "description": "Faz tempo em haha",
+      "answer": 0,
+      "alternatives": [
+        "3",
+        "5",
+        "2",
+        "4"
+      ]
+    },
+    {
+      "image": "https://s2.glbimg.com/0bUwKslf9U9MFwCi8RXyNVStV0c=/0x0:1080x608/924x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_bc8228b6673f488aa253bbcb03c80ec5/internal_photos/bs/2018/Y/W/9fL67RSvC64ZdAIAwThQ/2018-10-29.png",
+      "title": "Qual piloto possui o maior número de títulos?",
+      "description": "Esse recordo foi almejado recentemente",
+      "answer": 3,
+      "alternatives": [
+        "Michael Schumacher",
+        "Ayrton Senna",
+        "Sebastian Vettel",
+        "Lewis Hamilton"
+      ]
+    },
+    {
+      "image": "https://s2.glbimg.com/iZ_4I_usb8cqRW_gZvPiQPkCNNs=/0x0:3072x2490/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_bc8228b6673f488aa253bbcb03c80ec5/internal_photos/bs/2020/B/6/sZkUJHTuGB80QLDz65Uw/barrichello-alemanha-2000f.jpg",
+      "title": "Em que ano e pista, Rubens Barrichello conquistou sua primeira vitória?",
+      "description": "Essa é memorável",
+      "answer": 2,
+      "alternatives": [
+        "1999 Imola",
+        "2000 Interlagos",
+        "2000 Hockenheim",
+        "2002 Canadá"
+      ]
+    },
+    {
+      "image": "https://terceirotempo.uol.com.br/imagens/58/87/pdt_ft1_165887.jpg",
+      "title": "Em qual equipe, Ayrton Senna fez sua estreia na Fórmula 1?",
+      "description": "O começo de tudo...",
+      "answer": 0,
+      "alternatives": [
+        "Toleman",
+        "Lotus",
+        "Mcclaren",
+        "Williams"
+      ]
     }
+  ],
+  "external": [
+    "https://master-quiz.lucasvidigal98.vercel.app/",
+    "https://quiz-games.gabrielwolf-dev.vercel.app/",
+    "https://aluraquiz-base.augustorl.vercel.app/"
+  ],
+  "theme": {
+    "colors": {
+      "primary": "#9c27b0",
+      "secondary": "#3d5afe",
+      "mainBg": "#171B35",
+      "contrastText": "#FFFFFF",
+      "wrong": "#FF5722",
+      "success": "#4CAF50",
+      "buttonBg": "#8350E6",
+      "primaryRgb": "156,39,176"
+    },
+    "borderRadius": "4px"
   }
+}
