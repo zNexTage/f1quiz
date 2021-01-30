@@ -169,8 +169,8 @@ function QuestionWidget({
                         setTimeout(() => {
                             addResult(isCorrect);
                             setIsQuestionSubmited(false);
-                            onSubmit();
                             setSelectedAlternative(undefined);
+                            onSubmit();
                         }, 3 * 1000)
                     }}
                 >
@@ -227,7 +227,6 @@ const screenStates = {
 function Quiz({ quizDatabase = db }) {
     const [screenState, setScreenState] = React.useState(screenStates.LOADING);
     const [results, setResults] = React.useState([]);
-    const [showResultsAnimation, setShowResultsAnimation] = React.useState(false);
     const totalQuestions = quizDatabase.questions.length;
     const [currentQuestion, setCurrentQuestion] = React.useState(0);
     const questionIndex = currentQuestion;
@@ -250,7 +249,6 @@ function Quiz({ quizDatabase = db }) {
         if (nextQuestion < totalQuestions) {
             setCurrentQuestion(nextQuestion);
         } else {
-            setShowResultsAnimation(true);
             setScreenState(screenStates.RESULT);
         }
     }
@@ -281,7 +279,7 @@ function Quiz({ quizDatabase = db }) {
     )
 }
 
-const ConfettiDiv = styled.div`
+const ConfettiBase = styled.div`
     position: fixed;
     width: '100%';
     height: '100%';
@@ -290,13 +288,34 @@ const ConfettiDiv = styled.div`
     z-index: 15;
 `;
 
-function Results({ results }) {
+function ConfettiDiv() {
+    const [isFinishedAnimation, setIsFinishedAnimation] = useState(true);
+
     return (
         <>
-            <ResultsWidget results={results} />
-            <ConfettiDiv>
-                <Lottie animation={confetti} autoplay={true} loop={false} />
-            </ConfettiDiv>
+            {isFinishedAnimation && (<ConfettiBase>
+                <Lottie animation={confetti} autoplay={true} loop={false} onComplete={() => setIsFinishedAnimation(false)} />
+            </ConfettiBase>)}
+        </>
+    )
+}
+
+function Results({ results }) {
+
+    return (
+        <>
+            <motion.div
+                transition={{ duration: 1 }}
+                variants={{
+                    show: { scale: 1 },
+                    hidden: { scale: 0 }
+                }}
+                initial="hidden"
+                animate="show">
+                <ResultsWidget results={results} />
+            </motion.div>
+
+            <ConfettiDiv />
         </>
     )
 }
