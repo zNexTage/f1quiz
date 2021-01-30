@@ -106,11 +106,75 @@ function ResultsWidget({ results }) {
                             })
                         }
                     </ul>
+                    <ResultsPercentageInformation totalHits={totalHits} totalQuestions={results.length} />
                 </Widget.Content>
             </Widget>
 
         </>
     );
+}
+
+function ResultsPercentageInformation({ totalQuestions, totalHits }) {
+    const percentage = Math.floor((totalHits / totalQuestions) * 100);
+    let resPercentInfo = { text: "", img: "" };
+
+
+    const Row = styled.div`
+        display:flex;
+        flex-direction:row;
+
+        img{
+            margin-right: 10px;
+        }
+
+        h1{
+            margin:0;
+        }
+    `
+
+    if (percentage == 100) {
+        resPercentInfo = {
+            text: "Parabéns! Você acertou todas as questões!!",
+            img: "rocket.png"
+        }
+    }
+    else if (percentage >= 50) {
+        resPercentInfo = {
+            text: "Parabéns! Você realmente conhece o mundo da F1!!",
+            img: "champagne.png"
+        }
+    }
+    else if (percentage >= 30 && percentage < 50) {
+        resPercentInfo = {
+            text: "Você se saiu bem :)",
+            img: "confetti.png"
+        };
+    }
+    else if (percentage >= 1 && percentage < 30) {
+        resPercentInfo = {
+            text: "Você não se saiu muito bem :(",
+            img: "girl.png"
+        }
+    }
+    else {
+        resPercentInfo = {
+            text: "Você errou todas :O",
+            img: "anxiety.png"
+        };
+    }
+
+    return (
+        <Widget>
+            <Widget.Topic style={{ cursor: "auto" }}>
+                <Row>
+                    <img width="40" src={resPercentInfo.img} /> <h1 >{resPercentInfo.text}</h1>
+                </Row>
+                <p>
+                    A porcentagem de acertos foi: {percentage}%
+                </p>
+            </Widget.Topic>
+        </Widget>
+    )
 }
 
 function AnswerResult({ src }) {
