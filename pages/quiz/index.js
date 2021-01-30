@@ -1,18 +1,19 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 
 import Widget from '../../src/Components/Widget';
 import QuizBackground from '../../src/Components/Quiz/QuizBackground';
 import QuizContainer from '../../src/Components/Quiz/QuizContainer';
 
 import db from '../../db.json'
+import confetti from '../../src/Assets/confetti.json'
 import QuizButton from '../../src/Components/Quiz/QuizButton';
 import AlternativesForm from '../../src/Components/AlternativeForm';
 import BackLinkArrow from '../../src/Components/BackLinkArrow'
 import Loading from '../../src/Components/Loading';
 import styled from 'styled-components';
+import Lottie from '../../src/Components/Lottie';
 
 const AnswerResultBase = styled.div`
     flex-direction:row;
@@ -72,6 +73,7 @@ function ResultsWidget({ results }) {
                         {
                             results.map((result, index) => {
                                 const numberQuestion = index + 1;
+                                const resultKey = `result___${index}`
 
                                 let formatNumberQuestion = numberQuestion;
 
@@ -83,6 +85,7 @@ function ResultsWidget({ results }) {
 
                                 return (
                                     <motion.div
+                                        key={resultKey}
                                         transition={{ delay: index * 0.5, duration: 0.5 }}
                                         variants={{
                                             show: { opacity: 1, [randomAxis]: 0 },
@@ -105,6 +108,7 @@ function ResultsWidget({ results }) {
                     </ul>
                 </Widget.Content>
             </Widget>
+
         </>
     );
 }
@@ -112,7 +116,7 @@ function ResultsWidget({ results }) {
 function AnswerResult({ src }) {
     return (
         <AnswerResultBase>
-            <Image width="60" height="60" src={src} />
+            <img width="60" height="60" src={src} />
         </AnswerResultBase>
     )
 }
@@ -223,6 +227,7 @@ const screenStates = {
 function Quiz({ quizDatabase = db }) {
     const [screenState, setScreenState] = React.useState(screenStates.LOADING);
     const [results, setResults] = React.useState([]);
+    const [showResultsAnimation, setShowResultsAnimation] = React.useState(false);
     const totalQuestions = quizDatabase.questions.length;
     const [currentQuestion, setCurrentQuestion] = React.useState(0);
     const questionIndex = currentQuestion;
@@ -245,29 +250,54 @@ function Quiz({ quizDatabase = db }) {
         if (nextQuestion < totalQuestions) {
             setCurrentQuestion(nextQuestion);
         } else {
+            setShowResultsAnimation(true);
             setScreenState(screenStates.RESULT);
         }
     }
 
     return (
-        <QuizBackground backgroundImage={quizDatabase.bg}>
-            <QuizContainer>
-                {/*<QuizLogo />*/}
-                {screenState === screenStates.QUIZ && (
-                    <QuestionWidget
-                        question={question}
-                        questionIndex={questionIndex}
-                        totalQuestions={totalQuestions}
-                        onSubmit={handleSubmitQuiz}
-                        addResult={addResult}
-                    />
-                )}
+        <>
+            <QuizBackground backgroundImage={quizDatabase.bg}>
+                <QuizContainer>
+                    {/*<QuizLogo />*/}
+                    {screenState === screenStates.QUIZ && (
+                        <QuestionWidget
+                            question={question}
+                            questionIndex={questionIndex}
+                            totalQuestions={totalQuestions}
+                            onSubmit={handleSubmitQuiz}
+                            addResult={addResult}
+                        />
+                    )}
 
-                {screenState === screenStates.LOADING && <LoadingWidget />}
+                    {screenState === screenStates.LOADING && <LoadingWidget />}
 
-                {screenState === screenStates.RESULT && <ResultsWidget results={results} />}
-            </QuizContainer>
-        </QuizBackground>
+                    {screenState === screenStates.RESULT && <Results results={results} />}
+                </QuizContainer>
+
+            </QuizBackground>
+
+        </>
+    )
+}
+
+const ConfettiDiv = styled.div`
+    position: fixed;
+    width: '100%';
+    height: '100%';
+    top: 0;
+    left: 0;
+    z-index: 15;
+`;
+
+function Results({ results }) {
+    return (
+        <>
+            <ResultsWidget results={results} />
+            <ConfettiDiv>
+                <Lottie animation={confetti} autoplay={true} loop={false} />
+            </ConfettiDiv>
+        </>
     )
 }
 
