@@ -26,6 +26,12 @@ const ResultsWidgetBase = styled.div`
     background-color: ${(({ correctAnswer, theme }) => correctAnswer ? theme.colors.success : theme.colors.wrong)};
 `
 
+const PlayerResult = styled.p`
+    font-size: 17px;
+`;
+
+const axis = ["x", "y"];
+
 function LoadingWidget() {
     return (
         <Widget>
@@ -58,10 +64,10 @@ function ResultsWidget({ results }) {
         <>
             <Widget>
                 <Widget.Header>
-                    <BackLinkArrow href="/" />Resultado!
+                    <BackLinkArrow href="/" />{' '}Resultado!
                 </Widget.Header>
                 <Widget.Content>
-                    <p>{playerName}, Você acertou {totalHits} perguntas</p>
+                    <PlayerResult>{playerName}, Você acertou {totalHits} perguntas</PlayerResult>
                     <ul>
                         {
                             results.map((result, index) => {
@@ -73,18 +79,26 @@ function ResultsWidget({ results }) {
                                     formatNumberQuestion = `0${formatNumberQuestion}`;
                                 }
 
-                                return (
-                                    <ResultsWidgetBase
-                                        as={Widget.Topic}
-                                        correctAnswer={result}
-                                    >
-                                        <li>
-                                            Questão {formatNumberQuestion}: {result ? "Acertou" : "Errou"}
-                                        </li>
-                                    </ResultsWidgetBase>
-                                    // <Widget.Topic>
-                                    // </Widget.Topic>
+                                const randomAxis = axis[Math.floor(Math.random() * axis.length)];
 
+                                return (
+                                    <motion.div
+                                        transition={{ delay: index * 0.5, duration: 0.5 }}
+                                        variants={{
+                                            show: { opacity: 1, [randomAxis]: 0 },
+                                            hidden: { opacity: 0, [randomAxis]: '100%' }
+                                        }}
+                                        initial="hidden"
+                                        animate="show">
+                                        <ResultsWidgetBase
+                                            as={Widget.Topic}
+                                            correctAnswer={result}
+                                        >
+                                            <li>
+                                                Questão {formatNumberQuestion}: {result ? "Acertou" : "Errou"}
+                                            </li>
+                                        </ResultsWidgetBase>
+                                    </motion.div>
                                 )
                             })
                         }
