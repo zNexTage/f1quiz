@@ -13,6 +13,7 @@ import QuizInput from '../src/Components/Quiz/QuizInput'
 import QuizButton from '../src/Components/Quiz/QuizButton'
 import QuizContainer from '../src/Components/Quiz/QuizContainer';
 import Link from '../src/Components/Link';
+import WidgetLoading from '../src/Components/Widget/WidgetLoading';
 
 /* const Title = styled.h1`
   font-size: 50px;
@@ -38,30 +39,29 @@ const QuizForm = styled.form`
 
 export default function Home() {
   const router = useRouter();
-  const [playerName, setPlayerName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const submitHandler = (event) => {
-    router.push(`/quiz?playerName=${playerName}`);
 
-    event.preventDefault();
-  }
+  function PrincipalLayout() {
+    const [playerName, setPlayerName] = useState("");
 
-  const inputHandler = (event) => {
-    const { value } = event.target;
+    const hasPlayerName = playerName.length > 0;
+    
+    const submitHandler = async (event) => {
+      event.preventDefault();
 
-    setPlayerName(value);
-  }
+      setIsLoading(true);
+      await router.push(`/quiz?playerName=${playerName}`);
+    }
 
-  const hasPlayerName = playerName.length > 0;
+    const inputHandler = (event) => {
+      const { value } = event.target;
 
-  return (
-    <QuizBackground backgroundImage={db.bg}>
-      <Head>
-        <title>
-          F1 Quiz - Modelo Base
-        </title>
-      </Head>
-      <QuizContainer>
+      setPlayerName(value);
+    }
+
+    return (
+      <>
         <Widget
           as={motion.section}
           transition={{ delay: 0, duration: 0.5 }}
@@ -133,6 +133,20 @@ export default function Home() {
           initial="hidden"
           animate="show"
         />
+      </>
+    )
+  }
+
+  return (
+    <QuizBackground backgroundImage={db.bg}>
+      <Head>
+        <title>
+          F1 Quiz - Modelo Base
+            </title>
+      </Head>
+      <QuizContainer>
+        {!isLoading && <PrincipalLayout />}
+        {isLoading && <WidgetLoading />}
       </QuizContainer>
       <GitHubCorner projectUrl="https://github.com/zNexTage/f1quiz" />
     </QuizBackground>
