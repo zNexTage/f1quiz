@@ -8,13 +8,15 @@ import QuizContainer from '../../src/Components/Quiz/QuizContainer';
 
 import db from '../../db.json'
 import confetti from '../../src/Assets/confetti.json'
+import { QuizButtonBase } from '../../src/Components/Quiz/QuizButton';
 import QuizButton from '../../src/Components/Quiz/QuizButton';
 import AlternativesForm from '../../src/Components/AlternativeForm';
 import BackLinkArrow from '../../src/Components/BackLinkArrow'
-import Loading from '../../src/Components/Loading';
 import styled from 'styled-components';
 import Lottie from '../../src/Components/Lottie';
 import WidgetLoading from '../../src/Components/Widget/WidgetLoading';
+import Modal from '../../src/Components/Modal';
+import PlayerHistory from '../../src/Util/PlayerHistory';
 
 const AnswerResultBase = styled.div`
     flex-direction:row;
@@ -96,6 +98,7 @@ function ResultsWidget({ results }) {
                         }
                     </ul>
                     <ResultsPercentageInformation totalHits={totalHits} totalQuestions={results.length} />
+                    <PreviousResults />
                 </Widget.Content>
             </Widget>
 
@@ -103,10 +106,127 @@ function ResultsWidget({ results }) {
     );
 }
 
+function PreviousResults() {
+    const [isModalShow, setIsModalShow] = useState(false);
+
+    const PreviousResultsButton = styled(QuizButtonBase)`
+        margin: 0;
+        cursor:pointer;
+        height:50px;
+    `;
+
+    const showModal = () => {
+        setIsModalShow(true)
+    }
+
+    const closeModal = () => {
+        setIsModalShow(false)
+    }
+
+    const WidgetPreviousResults = styled(Widget)`
+        margin: 24px;   
+        width: 40%;
+        margin: 10px;  
+
+        @media(max-width: 1212px){
+            width: 100%;   
+        }
+    `;
+
+    const Row = styled.div`
+        display:flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px;
+        justify-content: space-between;
+
+        h1{
+            margin:0;
+        }
+    `;
+
+    function PreviousResultsInformation({ performedDay, totalHits, percentage, totalQuestions }) {
+
+
+        return (
+            <>
+                <Row>
+                    <h1>
+                        Realizado no dia:
+                    </h1>
+                    <label>
+                        {performedDay}
+                    </label>
+                </Row>
+                <Row>
+                    <h1>
+                        Total de Questões:
+                    </h1>
+                    <label>
+                        {totalQuestions}
+                    </label>
+                </Row>
+                <Row>
+                    <h1>
+                        Total acertos:
+                    </h1>
+                    <label>
+                        {totalHits}
+                    </label>
+                </Row>
+                <Row>
+                    <h1>
+                        Porcentagem:
+                    </h1>
+                    <label>
+                        {percentage}%
+                    </label>
+                </Row>
+            </>
+        )
+    }
+
+    function ModalPreviousResult() {
+
+        const playerHistory = PlayerHistory.getPlayerHistory();
+
+        return (
+            <Modal onClose={closeModal}>
+                {
+                    playerHistory.map((history, index) => (
+                        <WidgetPreviousResults>
+                            <Widget.Topic>
+                                <PreviousResultsInformation
+                                    key={`history___${index}`}
+                                    performedDay={history.datePerformed}
+                                    percentage={history.percentage}
+                                    totalHits={history.totalHits}
+                                    totalQuestions={history.totalQuestions}
+                                />
+                            </Widget.Topic>
+                        </WidgetPreviousResults>
+                    ))
+                }
+            </Modal>
+        )
+    }
+
+    return (
+        <>
+            <PreviousResultsButton onClick={showModal}>
+                Confira seus resultados anteriores
+            </PreviousResultsButton>
+
+            {isModalShow && <ModalPreviousResult />}
+        </>
+    )
+}
+
 function ResultsPercentageInformation({ totalQuestions, totalHits }) {
     const percentage = Math.floor((totalHits / totalQuestions) * 100);
     let resPercentInfo = { text: "", img: "" };
 
+    PlayerHistory.setPlayerHistory(percentage, totalHits, totalQuestions);
 
     const Row = styled.div`
         display:flex;

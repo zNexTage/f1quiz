@@ -33,5 +33,6 @@ QuizButton.propTypes = {
   type: PropTypes.string.isRequired
 }
 
+export { QuizButtonBase };
 
 export default QuizButton;
