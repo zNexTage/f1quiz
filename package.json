@@ -9,6 +9,7 @@
     "eslint:fix": "eslint ./ --fix"
   },
   "dependencies": {
+    "dayjs": "^1.10.4",
     "framer-motion": "^3.2.2-rc.1",
     "lottie-web": "^5.7.6",
     "next": "latest",

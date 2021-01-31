@@ -46,7 +46,7 @@ export default function Home() {
     const [playerName, setPlayerName] = useState("");
 
     const hasPlayerName = playerName.length > 0;
-    
+
     const submitHandler = async (event) => {
       event.preventDefault();
 
@@ -66,8 +66,8 @@ export default function Home() {
           as={motion.section}
           transition={{ delay: 0, duration: 0.5 }}
           variants={{
-            show: { opacity: 1, y: 0 },
-            hidden: { opacity: 0, y: '100%' }
+            show: { scale: 1 },
+            hidden: { scale: 0 }
           }}
           initial="hidden"
           animate="show"
@@ -94,8 +94,8 @@ export default function Home() {
           as={motion.section}
           transition={{ delay: .5, duration: 0.5 }}
           variants={{
-            show: { opacity: 1, x: 0 },
-            hidden: { opacity: 0, x: '100%' }
+            show: { opacity: 1 },
+            hidden: { opacity: 0 }
           }}
           initial="hidden"
           animate="show">
@@ -127,8 +127,8 @@ export default function Home() {
           as={motion.footer}
           transition={{ delay: .5, duration: 0.5 }}
           variants={{
-            show: { opacity: 1, x: 0 },
-            hidden: { opacity: 0, x: '-100%' }
+            show: { opacity: 1 },
+            hidden: { opacity: 0 }
           }}
           initial="hidden"
           animate="show"

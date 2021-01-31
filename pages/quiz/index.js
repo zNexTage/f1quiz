@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion'
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br'
+
+dayjs.locale('pt-br')
 
 import Widget from '../../src/Components/Widget';
 import QuizBackground from '../../src/Components/Quiz/QuizBackground';
@@ -127,6 +131,7 @@ function PreviousResults() {
         margin: 24px;   
         width: 40%;
         margin: 10px;  
+        max-height: 200px;
 
         @media(max-width: 1212px){
             width: 100%;   
@@ -146,7 +151,7 @@ function PreviousResults() {
     `;
 
     function PreviousResultsInformation({ performedDay, totalHits, percentage, totalQuestions }) {
-
+        const formatedPerformedDay = dayjs(performedDay).format("DD/MM/YYYY");
 
         return (
             <>
@@ -155,7 +160,7 @@ function PreviousResults() {
                         Realizado no dia:
                     </h1>
                     <label>
-                        {performedDay}
+                        {formatedPerformedDay}
                     </label>
                 </Row>
                 <Row>
@@ -194,7 +199,7 @@ function PreviousResults() {
             <Modal onClose={closeModal}>
                 {
                     playerHistory.map((history, index) => (
-                        <WidgetPreviousResults>
+                        <WidgetPreviousResults key={`previousResult___${index}`}>
                             <Widget.Topic>
                                 <PreviousResultsInformation
                                     key={`history___${index}`}
@@ -214,7 +219,7 @@ function PreviousResults() {
     return (
         <>
             <PreviousResultsButton onClick={showModal}>
-                Confira seus resultados anteriores
+                Confira os seus resultados!!
             </PreviousResultsButton>
 
             {isModalShow && <ModalPreviousResult />}

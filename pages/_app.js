@@ -6,6 +6,7 @@ import db from '../db.json';
 const GlobalStyle = createGlobalStyle`
  * {
     box-sizing: border-box;
+    margin: 0;
   }
   body {
     margin: 0;
