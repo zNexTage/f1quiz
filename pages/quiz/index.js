@@ -14,6 +14,7 @@ import BackLinkArrow from '../../src/Components/BackLinkArrow'
 import Loading from '../../src/Components/Loading';
 import styled from 'styled-components';
 import Lottie from '../../src/Components/Lottie';
+import WidgetLoading from '../../src/Components/Widget/WidgetLoading';
 
 const AnswerResultBase = styled.div`
     flex-direction:row;
@@ -33,18 +34,6 @@ const PlayerResult = styled.p`
 
 const axis = ["x", "y"];
 
-function LoadingWidget() {
-    return (
-        <Widget>
-            <Widget.Header>
-                Aguarde um pouquino :)
-                </Widget.Header>
-            <Widget.Content>
-                <Loading />
-            </Widget.Content>
-        </Widget>
-    );
-}
 
 function ResultsWidget({ results }) {
     const router = useRouter();
@@ -332,7 +321,7 @@ function Quiz({ quizDatabase = db }) {
                         />
                     )}
 
-                    {screenState === screenStates.LOADING && <LoadingWidget />}
+                    {screenState === screenStates.LOADING && <WidgetLoading />}
 
                     {screenState === screenStates.RESULT && <Results results={results} />}
                 </QuizContainer>
